@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Thuê Xe Tự Lái Phenikaa</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1>DANH SÁCH XE CHO THUÊ</h1>
+
+    <form action="/cars" method="GET">
+        <input type="text" name="search" placeholder="Nhập tên xe cần tìm..." value="<%= searchKeyword %>">
+        <button type="submit">Tìm kiếm</button>
+    </form>
+
+    <hr>
+
+    <div style="display: flex; gap: 20px;">
+        <% if(cars.length > 0) { %>
+            <% cars.forEach(car => { %>
+                <div style="border: 1px solid #ccc; padding: 15px; border-radius: 8px;">
+                    <h3><%= car.name %></h3>
+                    <p>Hãng: <%= car.brand %> - Loại: <%= car.type %></p>
+                    <p><b>Giá: <%= car.pricePerDay.toLocaleString() %> VNĐ/ngày</b></p>
+                    <a href="/cars/<%= car.id %>">Xem chi tiết & Đặt xe</a>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>Không tìm thấy xe nào phù hợp với yêu cầu.</p>
+        <% } %>
+    </div>
+</body>
+</html>
