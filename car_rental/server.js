@@ -23,10 +23,11 @@ app.use(session({
 
 // 4. Nhập các Route từ thư mục routes/
 const carRoutes = require("./routes/carRoute");
-// const authRoutes = require("./routes/authRoute"); // Bạn tự mở rộng sau nhé
+const authRoutes = require("./routes/authRoute"); // Bạn tự mở rộng sau nhé
 
 // 5. Gắn Route vào ứng dụng
 app.use("/cars", carRoutes);
+app.use("/auth", authRoutes);
 
 // Route mặc định chuyển hướng về trang danh sách xe
 app.get("/", (req, res) => {

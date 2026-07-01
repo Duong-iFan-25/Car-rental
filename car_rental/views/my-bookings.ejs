@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Đơn hàng của tôi</title>
+</head>
+<body>
+    <p>Xin chào <%= user.fullName %> | <a href="/cars">Về trang chủ</a> | <a href="/auth/logout">Đăng xuất</a></p>
+    <h2>LỊCH SỬ THUÊ XE CỦA BẠN</h2>
+
+    <table border="1" cellpadding="10" cellspacing="0">
+        <thead>
+            <tr style="background: #eee;">
+                <th>Mã đơn</th>
+                <th>Tên xe</th>
+                <th>Ngày nhận</th>
+                <th>Ngày trả</th>
+                <th>Tổng chi phí tạm tính</th>
+                <th>Trạng thái đơn</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if(bookings.length > 0) { %>
+                <% bookings.forEach(b => { %>
+                    <tr>
+                        <td><%= b.id %></td>
+                        <td><%= b.carName %></td>
+                        <td><%= b.startDate %></td>
+                        <td><%= b.endDate %></td>
+                        <td><%= b.totalPrice.toLocaleString() %> VNĐ</td>
+                        <td style="color: blue; font-weight: bold;"><%= b.status %></td>
+                    </tr>
+                <% }) %>
+            <% } else { %>
+                <tr>
+                    <td colspan="6" align="center">Bạn chưa đặt lịch thuê chiếc xe nào!</td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</body>
+</html>

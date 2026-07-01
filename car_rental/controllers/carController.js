@@ -1,45 +1,79 @@
 // controllers/carController.js
 const carModel = require("../models/carModel");
 
-// 1. Xử lý hiển thị danh sách xe + Tìm kiếm nâng cao
+// (Hàm index giữ nguyên như hôm trước, bổ sung truyền thông tin session sang giao diện)
 async function index(req, res) {
     try {
         let queryCondition = {};
-        
-        // Lấy từ khóa tìm kiếm từ ô nhập liệu (Query String: ?search=Toyota)
         if (req.query.search) {
-            // Sử dụng toán tử $regex tìm kiếm chuỗi không phân biệt hoa thường (Database.pdf - Page 18)
             queryCondition.name = { $regex: req.query.search, $options: "i" };
         }
-
-        // Gọi Model để tìm xe theo điều kiện, sắp xếp theo giá tăng dần (Database.pdf - Page 20)
         const cars = await carModel.findCars(queryCondition);
-
-        // Render giao diện car-list.ejs và truyền mảng dữ liệu xe sang
+        
+        // Truyền thêm user đang đăng nhập (nếu có) sang ejs hiển thị lời chào
         res.render("car-list", { 
             cars: cars, 
-            searchKeyword: req.query.search || "" 
+            searchKeyword: req.query.search || "",
+            user: req.session.currentUser || null 
         });
     } catch (error) {
-        res.status(500).send("Lỗi hệ thống khi tải danh sách xe");
+        res.status(500).send("Lỗi tải danh sách xe");
     }
 }
 
-// 2. Xử lý hiển thị chi tiết 1 con xe
 async function show(req, res) {
     try {
-        const carId = req.params.id; // Lấy ID xe từ URL động (ExpressJS.pdf)
-        const car = await carModel.getCarById(carId);
+        const car = await carModel.getCarById(req.params.id);
+        if (!car) return res.status(404).send("Không tìm thấy xe");
 
-        if (!car) {
-            return res.status(404).send("Không tìm thấy thông tin xe này!");
-        }
-
-        // Render trang chi tiết
-        res.render("car-detail", { car: car });
+        res.render("car-detail", { 
+            car: car,
+            user: req.session.currentUser || null
+        });
     } catch (error) {
-        res.status(500).send("Lỗi hệ thống khi tải chi tiết xe");
+        res.status(500).send("Lỗi tải chi tiết xe");
     }
 }
 
-module.exports = { index, show };
+// --- TÍNH NĂNG MỚI: XỬ LÝ ĐẶT XE ---
+async function bookCar(req, res) {
+    // 1. Kiểm tra xem user đã đăng nhập chưa, nếu chưa bắt đi login
+    if (!req.session.currentUser) {
+        return res.redirect("/auth/login");
+    }
+
+    const carId = req.params.id;
+    const { startDate, endDate } = req.body; // Lấy từ form đặt xe
+    const car = await carModel.getCarById(carId);
+
+    // Tính toán tổng tiền sơ bộ (ví dụ mặc định tính bằng giá 1 ngày cho đơn giản)
+    const totalPrice = car.pricePerDay; 
+
+    // 2. Tạo bản ghi đặt xe mới
+    await carModel.createBooking({
+        userId: req.session.currentUser.id,
+        carId: carId,
+        carName: car.name,
+        startDate: startDate,
+        endDate: endDate,
+        totalPrice: totalPrice
+    });
+
+    // 3. Đặt thành công thì chuyển hướng đến trang danh sách đơn đặt xe cá nhân
+    res.redirect("/cars/my-bookings");
+}
+
+// --- TÍNH NĂNG MỚI: XEM LỊCH SỬ ĐẶT XE CỦA TÔI ---
+async function myBookings(req, res) {
+    if (!req.session.currentUser) {
+        return res.redirect("/auth/login");
+    }
+    
+    const bookings = await carModel.getBookingsByUser(req.session.currentUser.id);
+    res.render("my-bookings", { 
+        bookings: bookings,
+        user: req.session.currentUser 
+    });
+}
+
+module.exports = { index, show, bookCar, myBookings };

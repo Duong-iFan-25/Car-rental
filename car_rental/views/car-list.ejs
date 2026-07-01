@@ -2,32 +2,80 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thuê Xe Tự Lái Phenikaa</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <h1>DANH SÁCH XE CHO THUÊ</h1>
 
-    <form action="/cars" method="GET">
-        <input type="text" name="search" placeholder="Nhập tên xe cần tìm..." value="<%= searchKeyword %>">
-        <button type="submit">Tìm kiếm</button>
-    </form>
+    <header>
+        <div class="navbar">
+            <a href="/cars" class="nav-logo">CAR RENTAL</a>
+            <div class="nav-links">
+                <% if (user) { %>
+                    <a href="/cars/my-bookings">Đơn hàng của tôi</a>
+                    <a href="#" style="color: #2b6cb0; font-weight: bold;">Hi, <%= user.fullName %>!</a>
+                    <a href="/auth/logout" style="color: #dc2626;">Đăng xuất</a>
+                <% } else { %>
+                    <a href="/auth/register">Đăng ký</a>
+                    <a href="/auth/login" class="btn-login">Đăng nhập</a>
+                <% } %>
+            </div>
+        </div>
+    </header>
 
-    <hr>
+    <section class="hero-container">
+        <div class="hero-content">
+            <h1>Bạn muốn thuê chiếc xe nào?</h1>
+            <p>Hàng trăm dòng xe tự lái đời mới, thủ tục nhận xe nhanh chóng trong 5 phút</p>
+            
+            <div class="search-wrapper">
+                <form action="/cars" method="GET" class="search-form">
+                    <div class="search-input-cell">
+                        <input type="text" name="search" placeholder="Nhập tên xe bạn muốn tìm (Vios, Accent, VF8...)" value="<%= searchKeyword %>">
+                    </div>
+                    <div class="search-button-cell">
+                        <button type="submit">Tìm xe</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
 
-    <div style="display: flex; gap: 20px;">
-        <% if(cars.length > 0) { %>
-            <% cars.forEach(car => { %>
-                <div style="border: 1px solid #ccc; padding: 15px; border-radius: 8px;">
-                    <h3><%= car.name %></h3>
-                    <p>Hãng: <%= car.brand %> - Loại: <%= car.type %></p>
-                    <p><b>Giá: <%= car.pricePerDay.toLocaleString() %> VNĐ/ngày</b></p>
-                    <a href="/cars/<%= car.id %>">Xem chi tiết & Đặt xe</a>
-                </div>
-            <% }) %>
-        <% } else { %>
-            <p>Không tìm thấy xe nào phù hợp với yêu cầu.</p>
-        <% } %>
-    </div>
+    <% if (searchKeyword !== "") { %>
+        <main class="main-content">
+            <h2 class="section-title">Kết quả tìm kiếm xe phù hợp với bạn</h2>
+
+            <div class="car-grid">
+                <% if(cars.length > 0) { %>
+                    <% cars.forEach(car => { %>
+                        <div class="car-card-wrapper">
+                            <div class="car-card">
+                                <div class="car-img-placeholder">
+                                    <span>[ Hình ảnh: <%= car.name %> ]</span>
+                                </div>
+                                <div class="car-info">
+                                    <div class="car-name"><%= car.name %></div>
+                                    <div class="car-price-row">
+                                        <div class="car-price">
+                                            <%= car.pricePerDay.toLocaleString() %>đ/ngày
+                                        </div>
+                                        <div class="car-action">
+                                            <a href="/cars/<%= car.id %>" class="btn-detail">Đặt ngay</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <div style="text-align: center; padding: 30px; font-size: 16px; color: #64748b; width: 100%;">
+                        Rất tiếc, hiện tại không tìm thấy chiếc xe nào phù hợp với từ khóa của bạn.
+                    </div>
+                <% } %>
+            </div>
+        </main>
+    <% } %>
+
 </body>
 </html>
