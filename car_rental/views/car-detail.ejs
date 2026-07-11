@@ -1,34 +1,36 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <title>Chi tiết xe <%= car.name %></title>
-</head>
-<body>
-    <a href="/cars"><- Quay lại danh sách</a>
-    <h1>Thông tin chi tiết: <%= car.name %></h1>
-    <p>Hãng sản xuất: <%= car.brand %></p>
-    <p>Truyền động: <%= car.type %></p>
-    <p>Giá thuê: <b style="color: green;"><%= car.pricePerDay.toLocaleString() %> VNĐ/ngày</b></p>
-    
-    <hr>
-    
-    <h3>TIẾN HÀNH ĐẶT XE</h3>
-    <% if (user) { %>
-        <p>Xin chào <b><%= user.fullName %></b>, vui lòng chọn thời gian mượn xe:</p>
-        <form action="/cars/<%= car.id %>/book" method="POST">
-            <label>Ngày nhận xe:</label>
-            <input type="date" name="startDate" required>
-            
-            <label>Ngày trả xe:</label>
-            <input type="date" name="endDate" required>
-            <br><br>
-            <button type="submit" style="background: green; color: white; padding: 10px 20px; border: none; cursor: pointer;">
-                Xác nhận đặt xe ngay
-            </button>
-        </form>
-    <% } else { %>
-        <p style="color: orange;">Bạn cần <a href="/auth/login">Đăng nhập</a> để thực hiện đặt chiếc xe này.</p>
-    <% } %>
-</body>
-</html>
+<%- include("layouts/header") %>
+
+<%# Biến car được carController truyền sang khi gọi res.render. %>
+<h1><%= car.name %></h1>
+
+<div class="detail-box">
+    <img src="<%= getCarImage(car.image) %>" alt="<%= car.name %>">
+    <div>
+        <p>Hãng: <%= car.brand %></p>
+        <p>Loại xe: <%= car.car_type %></p>
+        <p>Số chỗ: <%= car.seats %></p>
+        <p>Giá thuê: <strong><%= formatCurrency(car.price_per_day) %>/ngày</strong></p>
+        <p>Mô tả: <%= car.description %></p>
+    </div>
+</div>
+
+<%# Chỉ hiện form đặt xe khi session đã có người dùng đăng nhập. %>
+<% if (user) { %>
+    <h2>Đặt xe</h2>
+    <form class="form" action="/bookings/create/<%= car.id %>" method="post">
+        <label>Ngày bắt đầu</label>
+        <input type="date" name="start_date" required>
+
+        <label>Ngày kết thúc</label>
+        <input type="date" name="end_date" required>
+
+        <label>Ghi chú</label>
+        <textarea name="note" rows="3"></textarea>
+
+        <button class="btn btn-primary" type="submit">Đặt xe</button>
+    </form>
+<% } else { %>
+    <p><a href="/login">Đăng nhập</a> để đặt xe.</p>
+<% } %>
+
+<%- include("layouts/footer") %>

@@ -1,234 +1,267 @@
-/* public/css/style.css */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
+/* Thiết lập chung cho toàn bộ trang. */
 body {
-    background-color: #f4f6f9;
-    color: #333;
+  margin: 0;
+  background: #f4f6f8;
+  color: #222;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-/* --- HEADER STYLES --- */
-header {
-    background-color: #ffffff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+a {
+  color: #0d6efd;
+  text-decoration: none;
 }
 
-.navbar {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: table;
-    width: 100%;
-    padding: 15px 20px;
+/* Khung nội dung giúp trang không quá rộng trên màn hình lớn. */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.nav-logo {
-    display: table-cell;
-    vertical-align: middle;
-    font-size: 22px;
-    font-weight: bold;
-    color: #2b6cb0;
-    text-decoration: none;
+/* Thanh điều hướng ở đầu trang. */
+.site-header {
+  margin-bottom: 25px;
+  background: #2f3437;
+  color: white;
 }
 
-.nav-links {
-    display: table-cell;
-    vertical-align: middle;
-    text-align: right;
+.nav-wrap {
+  width: 90%;
+  max-width: 1200px;
+  min-height: 60px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.nav-links a {
-    text-decoration: none;
-    color: #4a5568;
-    margin-left: 20px;
-    font-weight: 500;
+.brand {
+  font-size: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.btn-login {
-    background-color: #2b6cb0;
-    color: #fff !important;
-    padding: 8px 16px;
-    border-radius: 5px;
+.brand,
+.main-nav a {
+  color: white;
+  font-weight: bold;
 }
 
-/* --- HERO SECTION (Giao diện giống ảnh mẫu) --- */
-.hero-container {
-    min-height: 75vh; /* Đẩy chiều cao chiếm phần lớn màn hình */
-    background: linear-gradient(135px, #1e3a8a 0%, #0f172a 100%);
-    color: white;
-    text-align: center;
-    display: table;
-    width: 100%;
-    padding: 40px 20px;
+.brand-logo {
+  width: 56px;
+  height: 40px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
-.hero-content {
-    display: table-cell;
-    vertical-align: middle; /* Căn giữa toàn bộ nội dung theo chiều dọc */
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
-.hero-content h1 {
-    font-size: 42px;
-    font-weight: 700;
-    margin-bottom: 15px;
-    letter-spacing: -0.5px;
+.main-nav .nav-auth-button {
+  border: 2px solid white;
+  border-radius: 6px;
+  padding: 7px 12px;
 }
 
-.hero-content p {
-    font-size: 18px;
-    margin-bottom: 35px;
-    color: #cbd5e1;
+.main-nav .nav-auth-button:hover {
+  background: white;
+  color: #2f3437;
 }
 
-/* --- THANH TÌM KIẾM LỚN TRỰC QUAN --- */
-.search-wrapper {
-    max-width: 650px;
-    margin: 0 auto;
-    background: white;
-    padding: 10px;
-    border-radius: 50px; /* Bo tròn góc dạng pill giống ảnh mẫu */
-    box-shadow: 0 10px 25px rgba(0,0,0,0.24);
+/* Thông báo lỗi và thông báo thành công. */
+.alert {
+  padding: 10px;
+  background: #fff3cd;
+  border: 1px solid #ffe69c;
 }
 
-.search-form {
-    display: table;
-    width: 100%;
+.success {
+  padding: 10px;
+  background: #d1e7dd;
+  border: 1px solid #a3cfbb;
 }
 
-.search-input-cell {
-    display: table-cell;
-    width: 75%;
-    vertical-align: middle;
+/* Các kiểu nút dùng chung. */
+.btn {
+  display: inline-block;
+  margin: 2px;
+  border: 0;
+  border-radius: 4px;
+  padding: 8px 12px;
+  background: #e9ecef;
+  color: #222;
+  cursor: pointer;
 }
 
-.search-form input {
-    width: 100%;
-    border: none;
-    padding: 12px 25px;
-    font-size: 16px;
-    outline: none;
-    color: #333;
+.btn-primary {
+  background: #0d6efd;
+  color: white;
 }
 
-.search-button-cell {
-    display: table-cell;
-    width: 25%;
-    vertical-align: middle;
+.btn-danger {
+  background: #dc3545;
+  color: white;
 }
 
-.search-form button {
-    width: 100%;
-    background-color: #f59e0b; /* Màu vàng cam bắt mắt */
-    color: #1e293b;
-    border: none;
-    padding: 14px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: background 0.2s;
+/* Form tìm kiếm và các form nhập dữ liệu. */
+.search-form,
+.form {
+  max-width: 300px;
+  margin-bottom: 20px;
+  display: grid;
+  gap: 10px;
 }
 
-.search-form button:hover {
-    background-color: #d97706;
+input,
+select,
+textarea {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 9px;
 }
 
-/* --- DANH SÁCH XE KHI XUẤT HIỆN --- */
-.main-content {
-    max-width: 1200px;
-    margin: 50px auto;
-    padding: 0 20px;
+/* Banner lớn của trang chủ. */
+.home-banner {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.91 / 1;
+  overflow: hidden;
 }
 
-.section-title {
-    font-size: 26px;
-    font-weight: 600;
-    margin-bottom: 30px;
-    color: #1e293b;
-    border-left: 5px solid #2b6cb0;
-    padding-left: 12px;
+.home-banner img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
 }
 
+.home-search-button {
+  position: absolute;
+  left: 50%;
+  bottom: 8%;
+  transform: translateX(-50%);
+  margin: 0;
+  border: 2px solid white;
+  padding: 12px 22px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.home-search-button:hover {
+  background: #0b5ed7;
+}
+
+/* Danh sách xe tự chia cột theo độ rộng màn hình. */
 .car-grid {
-    display: block;
-    font-size: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  align-items: start;
+  gap: 20px;
 }
 
-.car-card-wrapper {
-    display: inline-block;
-    width: 33.333%;
-    padding: 12px;
+.card,
+.detail-box {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 15px;
+}
+
+.card img,
+.detail-box img {
+  width: 100%;
+  object-fit: cover;
+}
+
+.card {
+  padding: 12px;
+  overflow: hidden;
+}
+
+.card img {
+  height: 180px;
+  border-radius: 4px;
+  display: block;
+}
+
+.card h3 {
+  margin: 14px 0 10px;
+  font-size: 18px;
+}
+
+.card p {
+  margin: 7px 0;
+  line-height: 1.4;
+}
+
+.card .btn {
+  margin-top: 8px;
+}
+
+.detail-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.detail-box img {
+  height: 150px;
+}
+
+/* Giao diện bảng dữ liệu. */
+table {
+  width: 100%;
+  margin-top: 15px;
+  border-collapse: collapse;
+  background: white;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background: #e9ecef;
+}
+
+.dashboard-table {
+  max-width: 100%;
+}
+
+.dashboard-table th,
+.dashboard-table td {
+  padding: 14px;
+}
+
+.inline-form {
+  display: inline;
+}
+
+.admin-car-image {
+  width: 90px;
+  height: 60px;
+  object-fit: cover;
+}
+
+/* Chuyển bố cục sang một cột trên màn hình nhỏ. */
+@media (max-width: 700px) {
+  .nav-wrap,
+  .main-nav,
+  .detail-box {
+    display: grid;
+    gap: 10px;
+  }
+
+  .home-search-button {
+    bottom: 10px;
+    padding: 8px 14px;
     font-size: 16px;
-    vertical-align: top;
-}
-
-.car-card {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    border: 1px solid #e2e8f0;
-}
-
-.car-img-placeholder {
-    width: 100%;
-    height: 190px;
-    background-color: #e2e8f0;
-    position: relative;
-}
-
-.car-img-placeholder span {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #64748b;
-    font-size: 14px;
-}
-
-.car-info {
-    padding: 20px;
-}
-
-.car-name {
-    font-size: 18px;
-    font-weight: 600;
-    color: #0f172a;
-    margin-bottom: 12px;
-}
-
-.car-price-row {
-    display: table;
-    width: 100%;
-    border-top: 1px solid #f1f5f9;
-    padding-top: 15px;
-}
-
-.car-price {
-    display: table-cell;
-    vertical-align: middle;
-    font-size: 16px;
-    font-weight: bold;
-    color: #dc2626;
-}
-
-.car-action {
-    display: table-cell;
-    text-align: right;
-    vertical-align: middle;
-}
-
-.btn-detail {
-    background-color: #2b6cb0;
-    color: white;
-    text-decoration: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-size: 13px;
+  }
 }

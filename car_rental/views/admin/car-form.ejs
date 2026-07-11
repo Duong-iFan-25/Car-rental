@@ -1,0 +1,44 @@
+<%- include("../layouts/header") %>
+
+<h1><%= title %></h1>
+
+<%# Cùng một form được dùng cho cả thêm và sửa xe. %>
+<%# Controller thay đổi action và dữ liệu car tùy chức năng. %>
+<form class="form" action="<%= action %>" method="post">
+    <label>Tên xe</label>
+    <input type="text" name="name" value="<%= car.name || "" %>" required>
+
+    <label>Hãng</label>
+    <input type="text" name="brand" value="<%= car.brand || "" %>">
+
+    <label>Loại xe</label>
+    <input type="text" name="car_type" value="<%= car.car_type || "" %>">
+
+    <label>Số chỗ</label>
+    <input type="number" name="seats" value="<%= car.seats || 5 %>">
+
+    <label>Giá/ngày</label>
+    <input type="number" name="price_per_day" value="<%= car.price_per_day || 0 %>">
+
+    <label>Link ảnh xe</label>
+    <input
+        type="url"
+        name="image"
+        value="<%= car.image && (car.image.startsWith('http://') || car.image.startsWith('https://')) ? car.image : '' %>"
+        placeholder="https://example.com/xe.jpg"
+        required
+    >
+
+    <label>Mô tả</label>
+    <textarea name="description" rows="3"><%= car.description || "" %></textarea>
+
+    <label>Trạng thái</label>
+    <select name="status">
+        <option value="available" <%= car.status === "available" ? "selected" : "" %>>Còn xe</option>
+        <option value="rented" <%= car.status === "rented" ? "selected" : "" %>>Đã thuê</option>
+    </select>
+
+    <button class="btn btn-primary" type="submit">Lưu</button>
+</form>
+
+<%- include("../layouts/footer") %>

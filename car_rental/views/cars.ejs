@@ -1,0 +1,31 @@
+<%- include("layouts/header") %>
+
+<h1>Danh sách xe</h1>
+
+<%# Form dùng method GET nên từ khóa sẽ xuất hiện trên URL dưới dạng ?search=... %>
+<form class="search-form" action="/cars" method="get">
+    <input type="text" name="search" placeholder="Tìm theo tên hoặc hãng xe" value="<%= search %>">
+    <button class="btn btn-primary" type="submit">Tìm</button>
+</form>
+
+<%# Lặp qua mảng cars do carController truyền sang. %>
+<div class="car-grid">
+    <% cars.forEach(function(car) { %>
+        <div class="card">
+            <img src="<%= getCarImage(car.image) %>" alt="<%= car.name %>">
+            <h3><%= car.name %></h3>
+            <p>Hãng: <%= car.brand %></p>
+            <p>Loại xe: <%= car.car_type %></p>
+            <p>Số chỗ: <%= car.seats %></p>
+            <p>Giá/ngày: <strong><%= formatCurrency(car.price_per_day) %></strong></p>
+            <a class="btn" href="/cars/<%= car.id %>">Xem chi tiết</a>
+        </div>
+    <% }) %>
+</div>
+
+<%# Thông báo khi database không trả về xe nào. %>
+<% if (cars.length === 0) { %>
+    <p>Không tìm thấy xe.</p>
+<% } %>
+
+<%- include("layouts/footer") %>

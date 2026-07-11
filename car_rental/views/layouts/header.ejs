@@ -1,0 +1,35 @@
+<%# Layout dùng chung cho phần đầu của tất cả các trang. %>
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= typeof title !== "undefined" ? title : "EasyCar Rental" %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="nav-wrap">
+            <a class="brand" href="<%= user && user.role === 'admin' ? '/admin' : '/cars' %>">
+                <img class="brand-logo" src="/images/logo.png" alt="" aria-hidden="true">
+                <span>Car Rental</span>
+            </a>
+            <nav class="main-nav">
+                <a href="/cars">Danh sách xe</a>
+                <%# user được middleware useSession đưa từ session sang EJS. %>
+                <% if (user) { %>
+                    <a href="/my-bookings">Đơn hàng</a>
+                    <%# Chỉ tài khoản admin mới thấy đường dẫn quản lý xe. %>
+                    <% if (user.role === "admin") { %>
+                        <a href="/admin/cars">Quản lý xe</a>
+                    <% } %>
+                    <a class="nav-auth-button" href="/logout">Đăng xuất</a>
+                <% } else { %>                    
+                    <a href="/register">Đăng ký</a>
+                    <a class="nav-auth-button" href="/login">Đăng nhập</a>
+                <% } %>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">

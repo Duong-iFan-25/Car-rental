@@ -1,0 +1,43 @@
+<%- include("../layouts/header") %>
+
+<h1>Quản lý xe</h1>
+<p><a class="btn btn-primary" href="/admin/cars/create">Thêm xe</a></p>
+
+<%# Khi chưa có xe, hướng dẫn admin thêm xe đầu tiên. %>
+<% if (cars.length === 0) { %>
+    <p class="alert">Chưa có xe nào. Hãy chọn nút Thêm xe để tạo xe mới.</p>
+<% } %>
+
+<%# Lặp danh sách xe để admin có thể sửa hoặc xóa từng xe. %>
+<table>
+    <thead>
+        <tr>
+            <th>Ảnh</th>
+            <th>Tên xe</th>
+            <th>Hãng</th>
+            <th>Loại</th>
+            <th>Giá/ngày</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% cars.forEach(function(car) { %>
+            <tr>
+                <td><img class="admin-car-image" src="<%= getCarImage(car.image) %>" alt="<%= car.name %>"></td>
+                <td><%= car.name %></td>
+                <td><%= car.brand %></td>
+                <td><%= car.car_type %></td>
+                <td><%= formatCurrency(car.price_per_day) %></td>
+                <td>
+                    <a class="btn" href="/admin/cars/<%= car.id %>/edit">Sửa</a>
+                    <%# Xóa làm thay đổi dữ liệu nên dùng form POST. %>
+                    <form class="inline-form" action="/admin/cars/<%= car.id %>/delete" method="post">
+                        <button class="btn btn-danger" type="submit">Xóa</button>
+                    </form>
+                </td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>
+
+<%- include("../layouts/footer") %>

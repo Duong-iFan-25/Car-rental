@@ -1,40 +1,60 @@
-// server.js
+// Nạp các thư viện cần dùng cho ứng dụng.
 const express = require("express");
-const session = require("express-session"); // Quản lý trạng thái (Cookie-session.pdf)
+const session = require("express-session");
 const path = require("path");
 
-const app = express();
+// Nạp các file route của từng chức năng.
+const homeRoutes = require("./routes/homeRoutes");
+const authRoutes = require("./routes/authRoutes");
+const carRoutes = require("./routes/carRoutes");
+const bookingRoutes = require("./routes/bookingRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
-// 1. Cấu hình Template Engine EJS (Express MVC.pdf - Page 4)
+// Middleware dùng để đưa thông tin session sang các file EJS.
+const { useSession } = require("./middlewares/authMiddleware");
+
+// Khởi tạo ứng dụng Express và chọn cổng chạy server.
+const app = express();
+const port = 3000;
+
+// Chọn EJS làm view engine để hiển thị giao diện.
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// 2. Middleware đọc dữ liệu form POST và phục vụ file tĩnh (ExpressJS.pdf - Page 21, 22)
+// Đọc dữ liệu từ form và cho phép truy cập các file trong thư mục public.
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
-// 3. Cấu hình Session để giữ trạng thái đăng nhập
-app.use(session({
-    secret: "my_secret_key",
+// Session dùng để ghi nhớ người dùng sau khi đăng nhập.
+app.use(
+  session({
+    secret: "easycar",
     resave: false,
-    saveUninitialized: true,
-    cookie: { maxAge: 3600000 } // Session tồn tại trong 1 tiếng
-}));
+    saveUninitialized: false,
+  }),
+);
 
-// 4. Nhập các Route từ thư mục routes/
-const carRoutes = require("./routes/carRoute");
-const authRoutes = require("./routes/authRoute"); // Bạn tự mở rộng sau nhé
+// Chạy middleware session trước khi xử lý các route.
+app.use(useSession);
 
-// 5. Gắn Route vào ứng dụng
+// Gắn từng nhóm route vào đường dẫn tương ứng.
+app.use("/", homeRoutes);
+app.use("/", authRoutes);
 app.use("/cars", carRoutes);
-app.use("/auth", authRoutes);
+app.use("/bookings", bookingRoutes);
+app.use("/admin", adminRoutes);
 
-// Route mặc định chuyển hướng về trang danh sách xe
-app.get("/", (req, res) => {
-    res.redirect("/cars");
+// Đường dẫn ngắn để mở danh sách đơn đặt xe của người dùng.
+app.get("/my-bookings", (req, res) => {
+  res.redirect("/bookings/my-bookings");
 });
 
-// Khởi chạy server (Giới thiệu NodeJS.pdf - Page 12)
-app.listen(3000, () => {
-    console.log("Server đang chạy tại cổng: http://localhost:3000");
+// Xử lý trường hợp người dùng truy cập đường dẫn không tồn tại.
+app.use((req, res) => {
+  res.status(404).send("Not Found");
+});
+
+// Khởi động server tại http://localhost:3000.
+app.listen(port, () => {
+  console.log("Server chạy tại http://localhost:" + port);
 });

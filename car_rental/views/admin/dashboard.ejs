@@ -1,0 +1,33 @@
+<%- include("../layouts/header") %>
+
+<h1>Dashboard</h1>
+
+<%# Các số liệu được dashboardModel lấy trực tiếp từ database. %>
+<table class="dashboard-table">
+  <thead>
+    <tr>
+      <th>Mục</th>
+      <th>Số lượng</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Tổng số xe</td>
+      <td><%= statistics.totalCars %></td>
+    </tr>
+    <tr>
+      <td>Tổng đơn thuê</td>
+      <td><%= statistics.totalBookings %></td>
+    </tr>
+    <tr>
+      <td>Đơn chờ duyệt</td>
+      <td><%= statistics.pendingBookings %></td>
+    </tr>
+    <tr>
+      <td>Tổng người dùng</td>
+      <td><%= statistics.totalUsers %></td>
+    </tr>
+  </tbody>
+</table>
+
+<%- include("../layouts/footer") %>

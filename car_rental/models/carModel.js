@@ -1,58 +1,58 @@
-// models/carModel.js
+const db = require("../config/db")
 
-const mockDatabase = [
-    { id: "1", name: "Toyota Vios", brand: "Toyota", pricePerDay: 800000, type: "Tự động", image: "vios.jpg" },
-    { id: "2", name: "Hyundai Accent", brand: "Hyundai", pricePerDay: 750000, type: "Số sàn", image: "accent.jpg" },
-    { id: "3", name: "VinFast VF8", brand: "VinFast", pricePerDay: 1500000, type: "Điện", image: "vf8.jpg" }
-];
-
-// 1. Giả lập bảng Thành viên (Dùng để kiểm tra đăng nhập)
-const mockUsers = [
-    { id: "u1", username: "sinhvien", password: "123", fullName: "Nguyễn Văn A" }
-];
-
-// 2. Giả lập bảng Đơn đặt xe (Booking)
-const mockBookings = [];
-
-// --- CÁC HÀM XỬ LÝ CHO XE ---
-async function findCars(condition) {
-    if (condition.name) {
-        const regex = new RegExp(condition.name.$regex, "i");
-        return mockDatabase.filter(car => regex.test(car.name));
-    }
-    return mockDatabase;
+// Lấy tất cả xe, xe thêm gần nhất được đưa lên trước.
+async function getAllCars() {
+    const [cars] = await db.query("SELECT * FROM cars ORDER BY id DESC")
+    return cars
 }
 
+// Tìm xe theo tên hoặc hãng; dấu % cho phép khớp một phần từ khóa.
+async function searchCars(keyword) {
+    const [cars] = await db.query(
+        "SELECT * FROM cars WHERE name LIKE ? OR brand LIKE ? ORDER BY id DESC",
+        [`%${keyword}%`, `%${keyword}%`]
+    )
+    return cars
+}
+
+// Lấy một xe theo id, không có thì trả về null.
 async function getCarById(id) {
-    return mockDatabase.find(car => car.id === id);
+    const [rows] = await db.query(
+        "SELECT * FROM cars WHERE id = ?",
+        [id]
+    )
+    return rows[0] || null
 }
 
-// --- CÁC HÀM XỬ LÝ CHO USER (Cookie-session.pdf) ---
-async function checkLogin(username, password) {
-    // Tìm user trùng khớp username và password
-    return mockUsers.find(u => u.username === username && u.password === password);
+// Thêm xe mới. Mỗi dấu ? nhận một giá trị trong mảng phía dưới.
+async function createCar(name, brand, car_type, seats, price_per_day, image, description, status) {
+    await db.query(
+        `INSERT INTO cars(name, brand, car_type, seats, price_per_day, image, description, status)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+        [name, brand, car_type, seats, price_per_day, image, description, status]
+    )
 }
 
-// --- CÁC HÀM XỬ LÝ ĐẶT XE (Database.pdf - Create) ---
-async function createBooking(bookingData) {
-    const newBooking = {
-        id: "b" + (mockBookings.length + 1),
-        ...bookingData,
-        status: "Chờ duyệt",
-        createdAt: new Date()
-    };
-    mockBookings.push(newBooking);
-    return newBooking;
+// Cập nhật xe có id tương ứng.
+async function updateCar(id, name, brand, car_type, seats, price_per_day, image, description, status) {
+    await db.query(
+        `UPDATE cars
+         SET name = ?, brand = ?, car_type = ?, seats = ?, price_per_day = ?, image = ?, description = ?, status = ?
+         WHERE id = ?`,
+        [name, brand, car_type, seats, price_per_day, image, description, status, id]
+    )
 }
 
-async function getBookingsByUser(userId) {
-    return mockBookings.filter(b => b.userId === userId);
+// Xóa xe theo id.
+async function deleteCar(id) {
+    await db.query("DELETE FROM cars WHERE id = ?", [id])
 }
 
-module.exports = { 
-    findCars, 
-    getCarById, 
-    checkLogin, 
-    createBooking, 
-    getBookingsByUser 
-};
+module.exports = {
+    getAllCars,
+    searchCars,
+    getCarById,
+    createCar,
+    updateCar,
+    deleteCar
+}
