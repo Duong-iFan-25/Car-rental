@@ -13,6 +13,9 @@
     <% cars.forEach(function(car) { %>
         <div class="card">
             <img src="<%= getCarImage(car.image) %>" alt="<%= car.name %>">
+            <span class="car-status <%= car.status === 'available' ? 'car-status-available' : 'car-status-rented' %>">
+                <%= car.status === "available" ? "Còn xe" : "Đã có người thuê" %>
+            </span>
             <h3><%= car.name %></h3>
             <p>Hãng: <%= car.brand %></p>
             <p>Loại xe: <%= car.car_type %></p>

@@ -2,6 +2,10 @@
 
 <h1><%= title %></h1>
 
+<% if (error) { %>
+    <p class="alert"><%= error %></p>
+<% } %>
+
 <%# Cùng một form được dùng cho cả thêm và sửa xe. %>
 <%# Controller thay đổi action và dữ liệu car tùy chức năng. %>
 <form class="form" action="<%= action %>" method="post">
@@ -9,16 +13,19 @@
     <input type="text" name="name" value="<%= car.name || "" %>" required>
 
     <label>Hãng</label>
-    <input type="text" name="brand" value="<%= car.brand || "" %>">
+    <input type="text" name="brand" value="<%= car.brand || "" %>" required>
 
     <label>Loại xe</label>
-    <input type="text" name="car_type" value="<%= car.car_type || "" %>">
+    <select name="car_type" required>
+        <option value="Số tự động" <%= car.car_type === "Số tự động" ? "selected" : "" %>>Số tự động</option>
+        <option value="Số sàn" <%= car.car_type === "Số sàn" ? "selected" : "" %>>Số sàn</option>
+    </select>
 
     <label>Số chỗ</label>
-    <input type="number" name="seats" value="<%= car.seats || 5 %>">
+    <input type="number" name="seats" min="1" max="100" value="<%= car.seats || 5 %>" required>
 
     <label>Giá/ngày</label>
-    <input type="number" name="price_per_day" value="<%= car.price_per_day || 0 %>">
+    <input type="number" name="price_per_day" min="1" value="<%= car.price_per_day || 0 %>" required>
 
     <label>Link ảnh xe</label>
     <input
@@ -31,12 +38,6 @@
 
     <label>Mô tả</label>
     <textarea name="description" rows="3"><%= car.description || "" %></textarea>
-
-    <label>Trạng thái</label>
-    <select name="status">
-        <option value="available" <%= car.status === "available" ? "selected" : "" %>>Còn xe</option>
-        <option value="rented" <%= car.status === "rented" ? "selected" : "" %>>Đã thuê</option>
-    </select>
 
     <button class="btn btn-primary" type="submit">Lưu</button>
 </form>

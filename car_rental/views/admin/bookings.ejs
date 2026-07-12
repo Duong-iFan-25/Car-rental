@@ -1,0 +1,74 @@
+<%- include("../layouts/header") %>
+
+<h1>Quản lý đơn thuê</h1>
+
+<% if (message === "approved") { %>
+    <p class="success">Đã duyệt đơn thuê thành công.</p>
+<% } %>
+
+<% if (message === "rejected") { %>
+    <p class="success">Đã từ chối đơn thuê.</p>
+<% } %>
+
+<% if (error === "schedule_conflict") { %>
+    <p class="alert">Không thể duyệt vì lịch xe hoặc lịch của khách hàng đang bị trùng.</p>
+<% } else if (error === "expired") { %>
+    <p class="alert">Không thể duyệt vì đơn thuê này đã qua ngày trả xe.</p>
+<% } else if (error) { %>
+    <p class="alert">Không thể xử lý vì đơn không tồn tại hoặc đã được xử lý.</p>
+<% } %>
+
+<% if (bookings.length === 0) { %>
+    <p>Chưa có đơn thuê nào.</p>
+<% } else { %>
+    <div class="table-wrap">
+        <table class="booking-table">
+            <thead>
+                <tr>
+                    <th>Mã đơn</th>
+                    <th>Khách hàng</th>
+                    <th>Xe</th>
+                    <th>Ngày thuê</th>
+                    <th>Ngày trả</th>
+                    <th>Tổng tiền</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% bookings.forEach(function(booking) { %>
+                    <tr>
+                        <td>#<%= booking.id %></td>
+                        <td>
+                            <strong><%= booking.full_name || "Không rõ" %></strong><br>
+                            <span><%= booking.phone || "" %></span>
+                        </td>
+                        <td><%= booking.car_name || "Xe đã xóa" %></td>
+                        <td><%= formatDate(booking.start_date) %></td>
+                        <td><%= formatDate(booking.end_date) %></td>
+                        <td><%= formatCurrency(booking.total_price) %></td>
+                        <td>
+                            <span class="booking-status booking-status-<%= booking.status %>">
+                                <%= formatBookingStatus(booking.status) %>
+                            </span>
+                        </td>
+                        <td class="booking-actions">
+                            <% if (booking.status === "pending") { %>
+                                <form class="inline-form" action="/admin/bookings/<%= booking.id %>/approve" method="post">
+                                    <button class="btn btn-success" type="submit">Duyệt</button>
+                                </form>
+                                <form class="inline-form" action="/admin/bookings/<%= booking.id %>/reject" method="post">
+                                    <button class="btn btn-danger" type="submit">Từ chối</button>
+                                </form>
+                            <% } else { %>
+                                <span>Đã xử lý</span>
+                            <% } %>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+<% } %>
+
+<%- include("../layouts/footer") %>

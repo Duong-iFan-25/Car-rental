@@ -7,13 +7,13 @@
 <p class="alert"><%= error %></p>
 <% } %>
 
-<%# formData giúp giữ lại họ tên, email và số điện thoại khi nhập sai. %>
+<%# formData giúp giữ lại họ tên, username và số điện thoại khi nhập sai. %>
 <form class="form" action="/register" method="post">
   <label>Họ tên</label>
-  <input type="text" name="full_name" value="<%= formData.full_name %>" required>
+  <input type="text" name="full_name" maxlength="100" value="<%= formData.full_name %>" required>
 
-  <label>Email</label>
-  <input type="email" name="email" value="<%= formData.email %>" required>
+  <label>Tên tài khoản</label>
+  <input type="text" name="username" maxlength="100" value="<%= formData.username %>" required>
 
   <label>Mật khẩu</label>
   <input type="password" name="password" required>
@@ -22,7 +22,7 @@
   <input type="password" name="confirm_password" required>
 
   <label>Số điện thoại</label>
-  <input type="text" name="phone" value="<%= formData.phone %>">
+  <input type="text" name="phone" maxlength="20" value="<%= formData.phone %>">
 
   <button class="btn btn-primary" type="submit">Đăng ký</button>
 </form>

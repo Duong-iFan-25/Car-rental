@@ -28,6 +28,24 @@ function useSession(req, res, next) {
         return new Date(value).toLocaleDateString("vi-VN")
     }
 
+    // Ngày hiện tại dùng làm giới hạn nhỏ nhất cho các ô chọn ngày thuê.
+    const today = new Date()
+    const year = today.getFullYear()
+    const month = String(today.getMonth() + 1).padStart(2, "0")
+    const day = String(today.getDate()).padStart(2, "0")
+    res.locals.today = `${year}-${month}-${day}`
+
+    // Đổi trạng thái trong database thành nội dung tiếng Việt.
+    res.locals.formatBookingStatus = (status) => {
+        const statuses = {
+            pending: "Chờ duyệt",
+            approved: "Đã duyệt",
+            rejected: "Đã từ chối",
+            completed: "Hoàn thành"
+        }
+        return statuses[status] || status
+    }
+
     // Link http/https được dùng trực tiếp, tên file cũ được lấy từ public/images.
     res.locals.getCarImage = (image) => {
         if (!image) return "/images/Banner.png"

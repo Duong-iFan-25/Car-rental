@@ -31,7 +31,7 @@ async function show(req, res) {
             return res.send("Không tìm thấy xe")
         }
 
-        res.render("car-detail", { car })
+        res.render("car-detail", { car, error: null })
     } catch (error) {
         console.log(error)
         res.send("Lỗi khi xem chi tiết xe")

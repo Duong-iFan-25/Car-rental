@@ -2,28 +2,28 @@
 const db = require("../config/db")
 
 // Thêm một tài khoản người dùng mới, role mặc định là user.
-async function createUser(full_name, email, password, phone) {
+async function createUser(full_name, username, password, phone) {
     await db.query(
-        "INSERT INTO users(full_name, email, password, phone, role) VALUES (?, ?, ?, ?, ?)",
-        [full_name, email, password, phone, "user"]
+        "INSERT INTO users(full_name, username, password, phone, role) VALUES (?, ?, ?, ?, ?)",
+        [full_name, username, password, phone, "user"]
     )
 }
 
-// Tìm tài khoản theo email để kiểm tra email trùng.
-async function findByEmail(email) {
+// Tìm tài khoản theo username để kiểm tra tên tài khoản trùng.
+async function findByUsername(username) {
     const [users] = await db.query(
-        "SELECT * FROM users WHERE email = ?",
-        [email]
+        "SELECT * FROM users WHERE username = ?",
+        [username]
     )
 
     return users[0] || null
 }
 
-// Tìm tài khoản có email và mật khẩu khớp với form đăng nhập.
-async function checkLogin(email, password) {
+// Tìm tài khoản có username và mật khẩu khớp với form đăng nhập.
+async function checkLogin(username, password) {
     const [users] = await db.query(
-        "SELECT * FROM users WHERE email = ? AND password = ?",
-        [email, password]
+        "SELECT * FROM users WHERE username = ? AND password = ?",
+        [username, password]
     )
 
     return users[0] || null
@@ -31,6 +31,6 @@ async function checkLogin(email, password) {
 
 module.exports = {
     createUser,
-    findByEmail,
+    findByUsername,
     checkLogin
 }

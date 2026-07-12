@@ -18,10 +18,12 @@
                 <a href="/cars">Danh sách xe</a>
                 <%# user được middleware useSession đưa từ session sang EJS. %>
                 <% if (user) { %>
-                    <a href="/my-bookings">Đơn hàng</a>
                     <%# Chỉ tài khoản admin mới thấy đường dẫn quản lý xe. %>
                     <% if (user.role === "admin") { %>
                         <a href="/admin/cars">Quản lý xe</a>
+                        <a href="/admin/bookings">Quản lý đơn</a>
+                    <% } else { %>
+                        <a href="/my-bookings">Đơn hàng</a>
                     <% } %>
                     <a class="nav-auth-button" href="/logout">Đăng xuất</a>
                 <% } else { %>                    

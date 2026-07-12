@@ -80,6 +80,7 @@ a {
 }
 
 .success {
+  width: 280px;
   padding: 10px;
   background: #d1e7dd;
   border: 1px solid #a3cfbb;
@@ -99,6 +100,11 @@ a {
 
 .btn-primary {
   background: #0d6efd;
+  color: white;
+}
+
+.btn-success {
+  background: #198754;
   color: white;
 }
 
@@ -164,7 +170,8 @@ textarea {
 }
 
 .card,
-.detail-box {
+.detail-box,
+.booking-box {
   background: white;
   border: 1px solid #ddd;
   border-radius: 6px;
@@ -178,6 +185,7 @@ textarea {
 }
 
 .card {
+  position: relative;
   padding: 12px;
   overflow: hidden;
 }
@@ -186,6 +194,25 @@ textarea {
   height: 180px;
   border-radius: 4px;
   display: block;
+}
+
+.car-status {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  border-radius: 4px;
+  padding: 5px 8px;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.car-status-available {
+  background: #198754;
+}
+
+.car-status-rented {
+  background: #dc3545;
 }
 
 .card h3 {
@@ -202,14 +229,168 @@ textarea {
   margin-top: 8px;
 }
 
-.detail-box {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+/* Trang chi tiết xe. */
+.car-detail-page {
+  padding-bottom: 40px;
 }
 
-.detail-box img {
-  height: 150px;
+.car-detail-title {
+  margin: 0 0 22px;
+  font-size: 34px;
+  line-height: 1.2;
+}
+
+.car-detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 360px);
+  align-items: start;
+  gap: 24px;
+}
+
+.detail-box {
+  display: block;
+  padding: 0;
+  overflow: hidden;
+}
+
+.detail-box .car-detail-image {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  display: block;
+  object-fit: cover;
+}
+
+.detail-info {
+  padding: 20px;
+}
+
+.detail-info h2,
+.booking-box h2 {
+  margin: 0 0 12px;
+  font-size: 22px;
+}
+
+.detail-specs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 28px;
+}
+
+.detail-specs p {
+  min-width: 0;
+  margin: 0;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 12px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.detail-specs span {
+  color: #5d6368;
+}
+
+.detail-specs strong {
+  text-align: right;
+}
+
+.detail-status {
+  border-radius: 4px;
+  padding: 4px 7px;
+  color: white;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.detail-status-available {
+  background: #198754;
+}
+
+.detail-status-rented {
+  background: #dc3545;
+}
+
+.detail-description {
+  padding-top: 18px;
+}
+
+.detail-description > strong {
+  display: block;
+  margin-bottom: 7px;
+}
+
+.detail-description p {
+  margin: 0;
+  color: #5d6368;
+  line-height: 1.6;
+}
+
+.booking-box {
+  padding: 22px;
+}
+
+.booking-price {
+  margin: 0 0 18px;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 18px;
+}
+
+.booking-price strong {
+  color: #198754;
+  font-size: 26px;
+}
+
+.booking-price span {
+  color: #5d6368;
+}
+
+.booking-box .alert {
+  margin: 0 0 16px;
+  border-radius: 4px;
+  line-height: 1.4;
+}
+
+.booking-form {
+  max-width: none;
+  margin-bottom: 0;
+  gap: 8px;
+}
+
+.booking-form label {
+  margin-top: 4px;
+  font-weight: bold;
+}
+
+.booking-form input,
+.booking-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  background: white;
+  font: inherit;
+}
+
+.booking-form input {
+  min-height: 42px;
+}
+
+.booking-form textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.booking-form .btn {
+  width: 100%;
+  margin: 8px 0 0;
+  padding: 11px 14px;
+  font-size: 16px;
+}
+
+.detail-login {
+  margin: 0 0 12px;
+  color: #5d6368;
+  line-height: 1.5;
 }
 
 /* Giao diện bảng dữ liệu. */
@@ -244,19 +425,76 @@ th {
   display: inline;
 }
 
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.booking-table {
+  min-width: 1000px;
+}
+
+.booking-actions {
+  white-space: nowrap;
+}
+
+.booking-status {
+  display: inline-block;
+  border-radius: 4px;
+  padding: 4px 7px;
+  font-size: 14px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.booking-status-pending {
+  border: 1px solid #ffecb5;
+  background: #fff3cd;
+  color: #664d03;
+}
+
+.booking-status-approved {
+  background: #198754;
+  color: white;
+}
+
+.booking-status-rejected {
+  background: #dc3545;
+  color: white;
+}
+
+.booking-status-completed {
+  background: #6c757d;
+  color: white;
+}
+
 .admin-car-image {
   width: 90px;
   height: 60px;
   object-fit: cover;
 }
 
+/* Chuyển trang chi tiết sang một cột trên màn hình vừa. */
+@media (max-width: 900px) {
+  .car-detail-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Chuyển bố cục sang một cột trên màn hình nhỏ. */
 @media (max-width: 700px) {
   .nav-wrap,
-  .main-nav,
-  .detail-box {
+  .main-nav {
     display: grid;
     gap: 10px;
+  }
+
+  .car-detail-title {
+    font-size: 28px;
+  }
+
+  .detail-specs {
+    grid-template-columns: 1fr;
   }
 
   .home-search-button {

@@ -2,7 +2,7 @@
 
 <h1>Đăng nhập</h1>
 
-<%# Hiển thị lỗi khi email hoặc mật khẩu không đúng. %>
+<%# Hiển thị lỗi khi username hoặc mật khẩu không đúng. %>
 <% if (error) { %>
     <p class="alert"><%= error %></p>
 <% } %>
@@ -12,10 +12,10 @@
     <p class="success"><%= message %></p>
 <% } %>
 
-<%# Form POST gửi email và mật khẩu tới route /login. %>
+<%# Form POST gửi username và mật khẩu tới route /login. %>
 <form class="form" action="/login" method="post">
-    <label>Email</label>
-    <input type="email" name="email" required>
+    <label>Tên tài khoản</label>
+    <input type="text" name="username" maxlength="100" required>
 
     <label>Mật khẩu</label>
     <input type="password" name="password" required>
@@ -24,6 +24,5 @@
 </form>
 
 <p>Chưa có tài khoản? <a href="/register">Đăng ký</a></p>
-<p>Admin mẫu: admin@easycar.local / admin123</p>
 
 <%- include("layouts/footer") %>

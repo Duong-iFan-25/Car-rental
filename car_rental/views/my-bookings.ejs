@@ -3,13 +3,15 @@
 <h1>Đơn đặt xe của tôi</h1>
 
 <%# Mỗi phần tử trong bookings sẽ được hiển thị thành một dòng. %>
-<table>
+<div class="table-wrap">
+<table class="booking-table">
     <thead>
         <tr>
             <th>Xe</th>
             <th>Ngày thuê</th>
             <th>Ngày trả</th>
             <th>Tổng tiền</th>
+            <th>Trạng thái</th>
             <th>Ghi chú</th>
         </tr>
     </thead>
@@ -20,11 +22,17 @@
                 <td><%= formatDate(booking.start_date) %></td>
                 <td><%= formatDate(booking.end_date) %></td>
                 <td><%= formatCurrency(booking.total_price) %></td>
+                <td>
+                    <span class="booking-status booking-status-<%= booking.status %>">
+                        <%= formatBookingStatus(booking.status) %>
+                    </span>
+                </td>
                 <td><%= booking.note || "" %></td>
             </tr>
         <% }) %>
     </tbody>
 </table>
+</div>
 
 <%# Hiển thị lời nhắc khi người dùng chưa đặt xe. %>
 <% if (bookings.length === 0) { %>

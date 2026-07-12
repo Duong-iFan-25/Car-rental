@@ -1,36 +1,66 @@
 <%- include("layouts/header") %>
 
 <%# Biến car được carController truyền sang khi gọi res.render. %>
-<h1><%= car.name %></h1>
+<section class="car-detail-page">
+    <h1 class="car-detail-title"><%= car.name %></h1>
 
-<div class="detail-box">
-    <img src="<%= getCarImage(car.image) %>" alt="<%= car.name %>">
-    <div>
-        <p>Hãng: <%= car.brand %></p>
-        <p>Loại xe: <%= car.car_type %></p>
-        <p>Số chỗ: <%= car.seats %></p>
-        <p>Giá thuê: <strong><%= formatCurrency(car.price_per_day) %>/ngày</strong></p>
-        <p>Mô tả: <%= car.description %></p>
+    <div class="car-detail-layout">
+        <section class="detail-box">
+            <img class="car-detail-image" src="<%= getCarImage(car.image) %>" alt="<%= car.name %>">
+
+            <div class="detail-info">
+                <h2>Thông tin xe</h2>
+
+                <div class="detail-specs">
+                    <p><span>Hãng xe</span><strong><%= car.brand %></strong></p>
+                    <p><span>Loại xe</span><strong><%= car.car_type %></strong></p>
+                    <p><span>Số chỗ</span><strong><%= car.seats %> chỗ</strong></p>
+                    <p>
+                        <span>Trạng thái</span>
+                        <strong class="detail-status <%= car.status === 'available' ? 'detail-status-available' : 'detail-status-rented' %>">
+                            <%= car.status === "available" ? "Còn xe" : "Đã có người thuê" %>
+                        </strong>
+                    </p>
+                </div>
+
+                <div class="detail-description">
+                    <strong>Mô tả</strong>
+                    <p><%= car.description || "Chưa có mô tả cho xe này." %></p>
+                </div>
+            </div>
+        </section>
+
+        <aside class="booking-box">
+            <h2>Đặt xe</h2>
+            <p class="booking-price">
+                <strong><%= formatCurrency(car.price_per_day) %></strong>
+                <span>/ ngày</span>
+            </p>
+
+            <%# Chỉ hiện form đặt xe khi session đã có người dùng đăng nhập. %>
+            <% if (user) { %>
+                <% if (error) { %>
+                    <p class="alert"><%= error %></p>
+                <% } %>
+
+                <form class="form booking-form" action="/bookings/create/<%= car.id %>" method="post">
+                    <label for="start_date">Ngày bắt đầu</label>
+                    <input id="start_date" type="date" name="start_date" min="<%= today %>" required>
+
+                    <label for="end_date">Ngày kết thúc</label>
+                    <input id="end_date" type="date" name="end_date" min="<%= today %>" required>
+
+                    <label for="note">Ghi chú</label>
+                    <textarea id="note" name="note" rows="3"></textarea>
+
+                    <button class="btn btn-primary" type="submit">Đặt xe</button>
+                </form>
+            <% } else { %>
+                <p class="detail-login">Bạn cần đăng nhập trước khi đặt xe.</p>
+                <a class="btn btn-primary" href="/login">Đăng nhập</a>
+            <% } %>
+        </aside>
     </div>
-</div>
-
-<%# Chỉ hiện form đặt xe khi session đã có người dùng đăng nhập. %>
-<% if (user) { %>
-    <h2>Đặt xe</h2>
-    <form class="form" action="/bookings/create/<%= car.id %>" method="post">
-        <label>Ngày bắt đầu</label>
-        <input type="date" name="start_date" required>
-
-        <label>Ngày kết thúc</label>
-        <input type="date" name="end_date" required>
-
-        <label>Ghi chú</label>
-        <textarea name="note" rows="3"></textarea>
-
-        <button class="btn btn-primary" type="submit">Đặt xe</button>
-    </form>
-<% } else { %>
-    <p><a href="/login">Đăng nhập</a> để đặt xe.</p>
-<% } %>
+</section>
 
 <%- include("layouts/footer") %>
