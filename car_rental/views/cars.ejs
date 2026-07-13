@@ -2,13 +2,11 @@
 
 <h1>Danh sách xe</h1>
 
-<%# Form dùng method GET nên từ khóa sẽ xuất hiện trên URL dưới dạng ?search=... %>
 <form class="search-form" action="/cars" method="get">
     <input type="text" name="search" placeholder="Tìm theo tên hoặc hãng xe" value="<%= search %>">
     <button class="btn btn-primary" type="submit">Tìm</button>
 </form>
 
-<%# Lặp qua mảng cars do carController truyền sang. %>
 <div class="car-grid">
     <% cars.forEach(function(car) { %>
         <div class="card">
@@ -26,7 +24,6 @@
     <% }) %>
 </div>
 
-<%# Thông báo khi database không trả về xe nào. %>
 <% if (cars.length === 0) { %>
     <p>Không tìm thấy xe.</p>
 <% } %>

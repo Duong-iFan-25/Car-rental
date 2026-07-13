@@ -1,4 +1,3 @@
-<%# Layout dùng chung cho phần đầu của tất cả các trang. %>
 <!doctype html>
 <html lang="vi">
 <head>
@@ -16,9 +15,7 @@
             </a>
             <nav class="main-nav">
                 <a href="/cars">Danh sách xe</a>
-                <%# user được middleware useSession đưa từ session sang EJS. %>
                 <% if (user) { %>
-                    <%# Chỉ tài khoản admin mới thấy đường dẫn quản lý xe. %>
                     <% if (user.role === "admin") { %>
                         <a href="/admin/cars">Quản lý xe</a>
                         <a href="/admin/bookings">Quản lý đơn</a>

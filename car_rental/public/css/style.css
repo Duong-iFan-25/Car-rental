@@ -1,4 +1,3 @@
-/* Thiết lập chung cho toàn bộ trang. */
 body {
   margin: 0;
   background: #f4f6f8;
@@ -11,14 +10,12 @@ a {
   text-decoration: none;
 }
 
-/* Khung nội dung giúp trang không quá rộng trên màn hình lớn. */
 .container {
   width: 90%;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-/* Thanh điều hướng ở đầu trang. */
 .site-header {
   margin-bottom: 25px;
   background: #2f3437;
@@ -72,7 +69,6 @@ a {
   color: #2f3437;
 }
 
-/* Thông báo lỗi và thông báo thành công. */
 .alert {
   padding: 10px;
   background: #fff3cd;
@@ -86,7 +82,6 @@ a {
   border: 1px solid #a3cfbb;
 }
 
-/* Các kiểu nút dùng chung. */
 .btn {
   display: inline-block;
   margin: 2px;
@@ -113,7 +108,6 @@ a {
   color: white;
 }
 
-/* Form tìm kiếm và các form nhập dữ liệu. */
 .search-form,
 .form {
   max-width: 300px;
@@ -130,7 +124,6 @@ textarea {
   padding: 9px;
 }
 
-/* Banner lớn của trang chủ. */
 .home-banner {
   position: relative;
   width: 100%;
@@ -161,7 +154,6 @@ textarea {
   background: #0b5ed7;
 }
 
-/* Danh sách xe tự chia cột theo độ rộng màn hình. */
 .car-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -229,7 +221,6 @@ textarea {
   margin-top: 8px;
 }
 
-/* Trang chi tiết xe. */
 .car-detail-page {
   padding-bottom: 40px;
 }
@@ -393,7 +384,6 @@ textarea {
   line-height: 1.5;
 }
 
-/* Giao diện bảng dữ liệu. */
 table {
   width: 100%;
   margin-top: 15px;
@@ -474,14 +464,12 @@ th {
   object-fit: cover;
 }
 
-/* Chuyển trang chi tiết sang một cột trên màn hình vừa. */
 @media (max-width: 900px) {
   .car-detail-layout {
     grid-template-columns: 1fr;
   }
 }
 
-/* Chuyển bố cục sang một cột trên màn hình nhỏ. */
 @media (max-width: 700px) {
   .nav-wrap,
   .main-nav {

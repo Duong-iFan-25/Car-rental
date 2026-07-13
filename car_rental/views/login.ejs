@@ -2,17 +2,14 @@
 
 <h1>Đăng nhập</h1>
 
-<%# Hiển thị lỗi khi username hoặc mật khẩu không đúng. %>
 <% if (error) { %>
     <p class="alert"><%= error %></p>
 <% } %>
 
-<%# Hiển thị thông báo sau khi người dùng đăng ký thành công. %>
 <% if (message) { %>
     <p class="success"><%= message %></p>
 <% } %>
 
-<%# Form POST gửi username và mật khẩu tới route /login. %>
 <form class="form" action="/login" method="post">
     <label>Tên tài khoản</label>
     <input type="text" name="username" maxlength="100" required>

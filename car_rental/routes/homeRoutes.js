@@ -1,9 +1,8 @@
-const express = require("express")
-const homeController = require("../controllers/homeController")
+const express = require("express");
+const homeController = require("../controllers/homeController");
 
-const router = express.Router()
+const router = express.Router();
 
-// GET / sẽ gọi hàm index trong homeController.
-router.get("/", homeController.index)
+router.get("/", homeController.index);
 
-module.exports = router
+module.exports = router;

@@ -6,8 +6,6 @@
     <p class="alert"><%= error %></p>
 <% } %>
 
-<%# Cùng một form được dùng cho cả thêm và sửa xe. %>
-<%# Controller thay đổi action và dữ liệu car tùy chức năng. %>
 <form class="form" action="<%= action %>" method="post">
     <label>Tên xe</label>
     <input type="text" name="name" value="<%= car.name || "" %>" required>

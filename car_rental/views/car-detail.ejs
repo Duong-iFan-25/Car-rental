@@ -1,6 +1,5 @@
 <%- include("layouts/header") %>
 
-<%# Biến car được carController truyền sang khi gọi res.render. %>
 <section class="car-detail-page">
     <h1 class="car-detail-title"><%= car.name %></h1>
 
@@ -37,7 +36,6 @@
                 <span>/ ngày</span>
             </p>
 
-            <%# Chỉ hiện form đặt xe khi session đã có người dùng đăng nhập. %>
             <% if (user) { %>
                 <% if (error) { %>
                     <p class="alert"><%= error %></p>

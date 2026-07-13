@@ -1,13 +1,10 @@
 const userModel = require("../models/userModel");
 
-// Hiển thị form đăng nhập.
 function showLogin(req, res) {
-  // req.query.registered xuất hiện sau khi đăng ký thành công.
   const message = req.query.registered ? "Đăng ký thành công." : null;
   res.render("login", { error: null, message: message });
 }
 
-// Nhận username và mật khẩu từ form đăng nhập.
 async function login(req, res) {
   try {
     const username = String(req.body.username || "").trim();
@@ -20,7 +17,6 @@ async function login(req, res) {
       });
     }
 
-    // Nhờ model kiểm tra tài khoản trong bảng users.
     const user = await userModel.checkLogin(username, password);
 
     if (!user) {
@@ -30,7 +26,6 @@ async function login(req, res) {
       });
     }
 
-    // Lưu thông tin cần thiết vào session để ghi nhớ đăng nhập.
     req.session.user = {
       id: user.id,
       full_name: user.full_name,
@@ -38,7 +33,6 @@ async function login(req, res) {
       role: user.role,
     };
 
-    // Admin vào Dashboard, người dùng thường vào danh sách xe.
     if (user.role === "admin") {
       return res.redirect("/admin");
     }
@@ -50,7 +44,6 @@ async function login(req, res) {
   }
 }
 
-// Hiển thị form đăng ký với dữ liệu ban đầu là rỗng.
 function showRegister(req, res) {
   res.render("register", {
     error: null,
@@ -62,7 +55,6 @@ function showRegister(req, res) {
   });
 }
 
-// Nhận và xử lý dữ liệu do form đăng ký gửi lên.
 async function register(req, res) {
   try {
     const full_name = String(req.body.full_name || "").trim();
@@ -71,22 +63,19 @@ async function register(req, res) {
     const confirm_password = String(req.body.confirm_password || "");
     const phone = String(req.body.phone || "").trim();
 
-    // Giữ lại dữ liệu để người dùng không phải nhập lại khi có lỗi.
     const formData = {
       full_name: full_name,
       username: username,
       phone: phone,
     };
 
-    // Kiểm tra các trường bắt buộc.
-    if (!full_name || !username || !password) {
+    if (!full_name || !username || !password || !confirm_password) {
       return res.render("register", {
         error: "Vui lòng nhập đầy đủ thông tin",
         formData: formData,
       });
     }
 
-    // Kiểm tra độ dài trước để tránh lỗi vượt giới hạn cột trong database.
     if (full_name.length > 100 || username.length > 100 || phone.length > 20) {
       return res.render("register", {
         error: "Thông tin đăng ký vượt quá độ dài cho phép",
@@ -94,7 +83,6 @@ async function register(req, res) {
       });
     }
 
-    // Hai lần nhập mật khẩu phải giống nhau.
     if (password !== confirm_password) {
       return res.render("register", {
         error: "Mật khẩu nhập lại không khớp",
@@ -102,7 +90,6 @@ async function register(req, res) {
       });
     }
 
-    // Không cho phép hai tài khoản dùng chung một username.
     const oldUser = await userModel.findByUsername(username);
 
     if (oldUser) {
@@ -112,7 +99,6 @@ async function register(req, res) {
       });
     }
 
-    // Dữ liệu hợp lệ thì thêm người dùng và chuyển sang đăng nhập.
     await userModel.createUser(full_name, username, password, phone);
     res.redirect("/login?registered=1");
   } catch (error) {
@@ -124,7 +110,6 @@ async function register(req, res) {
   }
 }
 
-// Xóa session hiện tại để đăng xuất.
 function logout(req, res) {
   req.session.destroy(() => {
     res.redirect("/login");

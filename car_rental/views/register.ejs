@@ -2,12 +2,10 @@
 
 <h1>Đăng ký</h1>
 
-<%# Nếu controller truyền lỗi sang thì hiển thị tại đây. %>
 <% if (error) { %>
 <p class="alert"><%= error %></p>
 <% } %>
 
-<%# formData giúp giữ lại họ tên, username và số điện thoại khi nhập sai. %>
 <form class="form" action="/register" method="post">
   <label>Họ tên</label>
   <input type="text" name="full_name" maxlength="100" value="<%= formData.full_name %>" required>

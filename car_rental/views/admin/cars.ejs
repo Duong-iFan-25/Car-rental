@@ -9,12 +9,10 @@
     <p class="alert">Xe cần xóa không tồn tại.</p>
 <% } %>
 
-<%# Khi chưa có xe, hướng dẫn admin thêm xe đầu tiên. %>
 <% if (cars.length === 0) { %>
     <p class="alert">Chưa có xe nào. Hãy chọn nút Thêm xe để tạo xe mới.</p>
 <% } %>
 
-<%# Lặp danh sách xe để admin có thể sửa hoặc xóa từng xe. %>
 <table>
     <thead>
         <tr>
@@ -36,7 +34,6 @@
                 <td><%= formatCurrency(car.price_per_day) %></td>
                 <td>
                     <a class="btn" href="/admin/cars/<%= car.id %>/edit">Sửa</a>
-                    <%# Xóa làm thay đổi dữ liệu nên dùng form POST. %>
                     <form class="inline-form" action="/admin/cars/<%= car.id %>/delete" method="post">
                         <button class="btn btn-danger" type="submit">Xóa</button>
                     </form>
